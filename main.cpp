@@ -1,6 +1,7 @@
 #include "RegexValidator.h"
 #include <iostream>
 #include <string>
+#include <chrono>
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -9,9 +10,13 @@ int main(int argc, char* argv[]) {
     }
 
     std::string pattern = argv[1];
+    auto start = std::chrono::high_resolution_clock::now();
     RegexValidator validator(pattern);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 
-    std::cout << "-- Validating input for the regular expression: " << pattern << " --\n";
+    std::cout << "DFA compiled successfully in: " << duration << " microseconds\n";
+    std::cout << "[ Validating input for the regular expression: " << pattern << " ]\n";
     std::cout << ">> ";
 
     std::string text;

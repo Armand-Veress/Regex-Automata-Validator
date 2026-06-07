@@ -5,9 +5,9 @@
 #ifndef REGEX_VALIDATOR_LEXER_H
 #define REGEX_VALIDATOR_LEXER_H
 
-#include <stdexcept>
 #include <string>
 #include <vector>
+#include <cctype>
 
 enum class TokenType {
     LITERAL,
@@ -34,9 +34,6 @@ class Lexer {
 private:
     std::string input;
     std::size_t idx;
-
-public:
-    explicit Lexer(const std::string& input): input(input), idx(0) {}
 
     Token nextToken() {
         if (idx >= input.length()) {
@@ -93,13 +90,56 @@ public:
         return {TokenType::LITERAL, std::string(1, c)};
     }
 
+public:
+    explicit Lexer(const std::string& input): input(input), idx(0) {}
+
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
-        Token t = nextToken();
-        while (t.type != TokenType::END_OF_FILE) {
-            tokens.push_back(t);
-            t = nextToken();
+
+        while (idx < input.length()) {
+            if (input[idx] == '[') {
+                idx++;
+                std::vector<char> charactersInClass;
+
+                while (idx < input.length() && input[idx] != ']') {
+                    if (idx + 2 < input.length() && input[idx + 1] == '-') {
+                        char start = input[idx];
+                        char end = input[idx + 2];
+                        idx += 3;
+
+                        if (start <= end) {
+                            for (char ch = start; ch <= end; ch++) {
+                                charactersInClass.push_back(ch);
+                            }
+                        }
+                    } else {
+                        charactersInClass.push_back(input[idx]);
+                        idx++;
+                    }
+                }
+
+                if (idx < input.length() && input[idx] == ']') {
+                    idx++;
+                }
+
+                if (!charactersInClass.empty()) {
+                    tokens.push_back({TokenType::LPAREN, "("});
+                    tokens.push_back({TokenType::LITERAL, std::string(1, charactersInClass[0])});
+
+                    for (size_t k = 1; k < charactersInClass.size(); k++) {
+                        tokens.push_back({TokenType::UNION, "|"});
+                        tokens.push_back({TokenType::LITERAL, std::string(1, charactersInClass[k])});
+                    }
+                    tokens.push_back({TokenType::RPAREN, ")"});
+                }
+            } else {
+                Token t = nextToken();
+                if (t.type != TokenType::END_OF_FILE) {
+                    tokens.push_back(t);
+                }
+            }
         }
+
         return tokens;
     }
 };
