@@ -3,7 +3,7 @@
 ---
 1. [Project description](#1-project-description)
    - [HowToRun](#how-to-run)
-2. [Formal context and Problem space](#2-technical-specifications)
+2. [Formal context and Problem space](#2-formal-context-and-problem-space)
 3. [Example analysis](#3-example-analysis)
 ---
 
@@ -35,7 +35,7 @@ The pipeline parses it into an **Abstract Syntax tree (AST)**. The AST is then c
   ---
 
   ## 2. Formal context and Problem space
-
+  
     The application operates within the domain of **Formal Language Theory**, evaluating whether a given input string belongs to a **Regular Language** defined by a Regular Expression. 
 The program parses the regular expression into an Abstract Syntax Tree (AST) and translates it into an equivalent Non-deterministic Finite Automaton ($\epsilon$-NFA) via **Thompson's Construction**. \\
     The structure is then further optimized by converting the $\epsilon$-NFA into a Deterministic Finite Automaton (DFA) using the **Subset Construction algorithm**. 
@@ -43,7 +43,7 @@ While NFA-to-DFA conversion has a theoretical worst-case space complexity of $O(
 
   ---
 
-  ## 3. Example analysis: 
+  ## 3. Example analysis 
 **RE:** `/[-a-zA-Z0-9_]+(/[-a-zA-Z0-9_]+)*/?`; <br>
 **Let $L(RE)$ be the Regular Language of standard Unix directory paths.**
 
