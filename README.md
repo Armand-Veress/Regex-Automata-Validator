@@ -8,10 +8,11 @@
 ---
 
 ## 1. Project description
-The project is a **C++** library implementation that compiles an initial regex pattern into a high-performance state-machine for text validation.
+The project is a **C++ Header-Only Library** implementation that compiles an initial regex pattern into a high-performance state-machine for text validation.
 The pipeline parses it into an **Abstract Syntax tree (AST)**. The AST is then constructed into a **Non-deterministic Finite Automata (NFA)**, which is then converted to a **Deterministic Finite Automata (DFA)**.The resulting DFA provides optimal, predictable $O(N)$ validation time.
 
 ## How to run
+**Terminal Demo (`main.cpp` using the library):**
 * Clone repository, create a `\build` directory and navigate to it:
   ```bash
   mkdir build && cd build
@@ -27,9 +28,9 @@ The pipeline parses it into an **Abstract Syntax tree (AST)**. The AST is then c
 * Navigate to the executable in the `\Debug` directory and start the program by passing the input regex as an argument. e.g.:
   ```bash
   # Linux/macOS
-  ./RegexValidator "(a|b)+c*c(ba){2}"
+  ./RegexValidator '(a|b)+c*c(ba){2}'
   # Windows 
-  .\RegEx_validator.exe "(a|b)+c*c(ba){2}"
+  .\RegEx_validator.exe '(a|b)+c*c(ba){2}'
   ```
 
   ---
